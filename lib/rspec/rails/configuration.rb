@@ -93,6 +93,11 @@ module RSpec
       # Add support for fixture_path on fixture_file_upload
       config.include RSpec::Rails::FixtureFileUploadSupport
 
+      config.before(:suite) do |run|
+        Rake.application.rake_require('rspec/rails/tasks/rspec')
+        Rake::Task["spec:prepare"].invoke
+      end
+
       # This allows us to expose `render_views` as a config option even though it
       # breaks the convention of other options by using `render_views` as a
       # command (i.e. `render_views = true`), where it would normally be used
